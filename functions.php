@@ -81,4 +81,22 @@ add_action( 'admin_init', 'custom_settings_page_setup' );
 // ++++++++         3. AIRPORT CPT           ++++++++
 // ++++++++++++++++++++++++++++++++++++++++++++++++++
 
-
+// 3.1 Declare Airport as a Custom Post Type
+function create_airport() {
+	register_post_type('sandbox_airport',
+			array(
+			'labels' => array(
+					'name' => __('Airport'),
+					'singular_name' => __('Airport'),
+			),
+			'public' => true,
+			'has_archive' => true,
+			'supports' => array(
+					'title',
+					'editor',
+					'thumbnail',
+				  'custom-fields'
+			)
+	));
+}
+add_action('init', 'create_airport');
