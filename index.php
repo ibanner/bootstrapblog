@@ -9,7 +9,7 @@
 
 				get_template_part( 'content', get_post_format() );
 				
-			endwhile;
+			endwhile;?>
 			
 			<nav>
 				<ul class="pager">
@@ -18,8 +18,7 @@
 				</ul>
 			</nav>
 			
-			endif; 
-			?>
+			<?endif; ?>
 
         </div><!-- /.blog-main -->
 
