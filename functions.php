@@ -22,14 +22,14 @@ add_theme_support( 'title-tag' );
 
 // Custom settings
 function custom_settings_add_menu() {
-  add_menu_page( 'Custom Settings', 'Custom Settings', 'manage_options', 'custom-settings', 'custom_settings_page', null, 99);
+  add_menu_page( 'Social Links', 'Social Links', 'manage_options', 'custom-settings', 'custom_settings_page', null, 99);
 }
 add_action( 'admin_menu', 'custom_settings_add_menu' );
 
 // Create Custom Global Settings Page
 function custom_settings_page() { ?>
   <div class="wrap">
-    <h1>Custom Settings</h1>
+    <h1>Social Links</h1>
     <form method="post" action="options.php">
        <?php
            settings_fields('section');
@@ -56,7 +56,7 @@ function setting_facebook() { ?>
 <?php }
 
 function custom_settings_page_setup() {
-  add_settings_section('section', 'All Settings', null, 'theme-options');
+  add_settings_section('section', 'Social Media Presence', null, 'theme-options');
   add_settings_field('twitter', 'Twitter URL', 'setting_twitter', 'theme-options', 'section');
   add_settings_field('github', 'GitHub URL', 'setting_github', 'theme-options', 'section');
   add_settings_field('facebook', 'Facebook URL', 'setting_facebook', 'theme-options', 'section');
