@@ -7,4 +7,4 @@ function sandbox_scripts() {
 	wp_enqueue_script( 'bootstrap', 'https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js', array('jquery'), '3.3.6', true );
 }
 
-add_action( 'wp_enqueue_scripts', 'wp-sandbox_scripts' );
+add_action( 'wp_enqueue_scripts', 'wpsandbox_scripts' );
