@@ -6,7 +6,7 @@ Version: 0.0.1
 Tags: bootstrap
 */
 
-.wp-post-image {
+img.wp-post-image {
 	max-width: 100%;
 	height: auto;
 }
