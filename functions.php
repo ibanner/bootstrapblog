@@ -20,6 +20,9 @@ add_action('wp_print_styles', 'sandbox_google_fonts');
 // WordPress Titles
 add_theme_support( 'title-tag' );
 
+// Support Featured Images
+add_theme_support( 'post-thumbnails' );
+
 // Custom settings
 function custom_settings_add_menu() {
   add_menu_page( 'Social Links', 'Social Links', 'manage_options', 'custom-settings', 'custom_settings_page', null, 99);
