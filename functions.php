@@ -222,9 +222,9 @@ function save_airport_meta_box($post_id, $post, $update)
     if($slug != $post->post_type)
         return $post_id;
 
-    $meta_box_text_value = "";
+/*     $meta_box_text_value = "";
     $meta_box_dropdown_value = "";
-    $meta_box_checkbox_value = "";
+    $meta_box_checkbox_value = ""; */
 
     if(isset($_POST["meta-box-text"]))
     {
