@@ -140,7 +140,8 @@ add_action( 'init', 'create_airport', 0 );
 
 function airport_meta_box_markup($object)
 {
-    wp_nonce_field(basename(__FILE__), "meta-box-nonce");
+    global $post;
+	wp_nonce_field(basename(__FILE__), "meta-box-nonce");
 
     ?>
         <div>
