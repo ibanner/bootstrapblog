@@ -5,7 +5,7 @@
 	<?php if ( has_post_thumbnail() ) {
 	  the_post_thumbnail();
 	} ?>
-	<?php echo $airport_iata_code ?>
+	[<?php echo $airport_iata_code ?>]
 	<?php the_content(); ?>
 
 </div><!-- /.blog-post -->
