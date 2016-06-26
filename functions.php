@@ -197,7 +197,7 @@ function airport_meta_box_markup($object)
 
 function add_airport_meta_box()
 {
-    add_meta_box("airport-meta-box", "Custom Meta Box", "airport_meta_box_markup", "post", "side", "high", null);
+    add_meta_box("airport-meta-box", "Airport Meta Box", "airport_meta_box_markup", "post", "side", "high", null);
 }
 
 add_action("add_meta_boxes", "add_airport_meta_box");
