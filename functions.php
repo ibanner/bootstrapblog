@@ -140,8 +140,7 @@ add_action( 'init', 'create_airport', 0 );
 
 function airport_meta_box_markup($object)
 {
-    global $object;
-	wp_nonce_field(basename(__FILE__), "meta-box-nonce");
+	wp_nonce_field('airport_nonce_action', 'airport_nonce_field');
 
     ?>
         <div>
@@ -207,8 +206,11 @@ add_action("add_meta_boxes", "add_airport_meta_box");
 
 function save_airport_meta_box($post_id, $post, $update)
 {
-    if (!isset($_POST["meta-box-nonce"]) || !wp_verify_nonce($_POST["meta-box-nonce"], basename(__FILE__)))
+    if ( ! isset( $_POST['airport_nonce_field'] )
+         || ! wp_verify_nonce( $_POST['airport_nonce_field'], 'airport_nonce_action' )
+    ) {
         return $post_id;
+    }
 
     if(!current_user_can("edit_post", $post_id))
         return $post_id;
