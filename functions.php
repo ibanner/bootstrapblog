@@ -140,12 +140,18 @@ add_action( 'init', 'create_airport', 0 );
 
 function airport_meta_box_markup($object)
 {
-	wp_nonce_field('airport_nonce_action', 'airport_nonce_field');
+	wp_nonce_field( basename( __FILE__ ) , 'airport_nonce_field');
+	
+	// retrieve the meta-box-text current value
+	$current_text = get_post_meta( $post->ID, 'meta-box-text', true );
+	// retrieve the meta-box-dropdown current value
+	$current_dropdown = get_post_meta( $post->ID, 'meta-box-dropdown', true );
+
 
     ?>
         <div>
             <label for="meta-box-text">Text</label>
-            <input name="meta-box-text" type="text" value="<?php echo get_post_meta($object->ID, "meta-box-text", true); ?>">
+            <input name="meta-box-text" type="text" value="<?php echo $current_text; ?>">
 
             <br>
 
@@ -156,7 +162,7 @@ function airport_meta_box_markup($object)
 
                     foreach($option_values as $key => $value) 
                     {
-                        if($value == get_post_meta($object->ID, "meta-box-dropdown", true))
+                        if($value == $current_dropdown)
                         {
                             ?>
                                 <option selected><?php echo $value; ?></option>
@@ -174,23 +180,23 @@ function airport_meta_box_markup($object)
 
             <br>
 
-            <label for="meta-box-checkbox">Check Box</label>
+            <!-- /* <label for="meta-box-checkbox">Check Box</label>
             <?php
                 $checkbox_value = get_post_meta($object->ID, "meta-box-checkbox", true);
 
                 if($checkbox_value == "")
                 {
                     ?>
-                        <input name="meta-box-checkbox" type="checkbox" value="true">
+                        <input name="meta-box-checkbox[]" type="checkbox" value="true">
                     <?php
                 }
                 else if($checkbox_value == "true")
                 {
                     ?>  
-                        <input name="meta-box-checkbox" type="checkbox" value="true" checked>
+                        <input name="meta-box-checkbox[]" type="checkbox" value="true" checked>
                     <?php
                 }
-            ?>
+            ?> */ -->
         </div>
     <?php  
 }
@@ -204,13 +210,12 @@ add_action("add_meta_boxes", "add_airport_meta_box");
 
 // 3.3 Get those meta box values saved somewhere
 
-function save_airport_meta_box($post_id, $post, $update)
+function save_airport_meta_box( $post_id )
 {
-    if ( ! isset( $_POST['airport_nonce_field'] )
-         || ! wp_verify_nonce( $_POST['airport_nonce_field'], 'airport_nonce_action' )
-    ) {
-        return $post_id;
-    }
+	// verify meta box nonce
+	if ( !isset( $_POST['airport_nonce_field'] ) || !wp_verify_nonce( $_POST['airport_nonce_field'], basename( __FILE__ ) ) ){
+		return;
+	}
 
     if(!current_user_can("edit_post", $post_id))
         return $post_id;
@@ -238,11 +243,11 @@ function save_airport_meta_box($post_id, $post, $update)
     }   
     update_post_meta($post_id, "meta-box-dropdown", $meta_box_dropdown_value);
 
-    if(isset($_POST["meta-box-checkbox"]))
+/*     if(isset($_POST["meta-box-checkbox"]))
     {
         $meta_box_checkbox_value = $_POST["meta-box-checkbox"];
     }   
-    update_post_meta($post_id, "meta-box-checkbox", $meta_box_checkbox_value);
+    update_post_meta($post_id, "meta-box-checkbox", $meta_box_checkbox_value); */
 }
 
-add_action("save_post", "save_airport_meta_box", 10, 3);
+add_action("save_post_airport", "save_airport_meta_box", 10, 2);
