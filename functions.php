@@ -147,7 +147,7 @@ function airport_meta_box_markup($object)
 
 	?>
 	<div class='inside'>
-		<h3><?php _e( 'Carbohydrates', 'food_example_plugin' ); ?></h3>
+		<h3><?php _e( 'Carbohydrates', 'text_domain' ); ?></h3>
 		<p>
 			<input type="text" name="carbohydrates" value="<?php echo $current_carbohydrates; ?>" /> 
 		</p>

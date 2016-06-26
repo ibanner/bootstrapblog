@@ -5,7 +5,7 @@
 
 			<?php 
 				$args =  array( 
-					'post_type' => 'sandbox_airport',
+					'post_type' => 'airport',
 					'orderby' => 'menu_order',
 					'order' => 'ASC'
 				);
