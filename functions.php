@@ -175,27 +175,27 @@ class Airport_Meta_Box {
 		wp_nonce_field( 'airport_nonce_action', 'airport_nonce' );
 
 		// Retrieve an existing value from the database.
-		$airport_iata-code = get_post_meta( $post->ID, 'airport_iata-code', true );
-		$airport_vip-lounge = get_post_meta( $post->ID, 'airport_vip-lounge', true );
+		$airport_iata_code = get_post_meta( $post->ID, 'airport_iata_code', true );
+		$airport_vip_lounge = get_post_meta( $post->ID, 'airport_vip_lounge', true );
 
 		// Set default values.
-		if( empty( $airport_iata-code ) ) $airport_iata-code = '';
-		if( empty( $airport_vip-lounge ) ) $airport_vip-lounge = 'False';
+		if( empty( $airport_iata_code ) ) $airport_iata_code = '';
+		if( empty( $airport_vip_lounge ) ) $airport_vip_lounge = 'False';
 
 		// Form fields.
 		echo '<table class="form-table">';
 
 		echo '	<tr>';
-		echo '		<th><label for="airport_iata-code" class="airport_iata-code_label">' . __( 'IATA Code', 'text_domain' ) . '</label></th>';
+		echo '		<th><label for="airport_iata_code" class="airport_iata_code_label">' . __( 'IATA Code', 'text_domain' ) . '</label></th>';
 		echo '		<td>';
-		echo '			<input type="text" id="airport_iata-code" name="airport_iata-code" class="airport_iata-code_field" placeholder="' . esc_attr__( 'e.g. TLV', 'text_domain' ) . '" value="' . esc_attr__( $airport_iata-code ) . '">';
+		echo '			<input type="text" id="airport_iata_code" name="airport_iata_code" class="airport_iata_code_field" placeholder="' . esc_attr__( 'e.g. TLV', 'text_domain' ) . '" value="' . esc_attr__( $airport_iata_code ) . '">';
 		echo '		</td>';
 		echo '	</tr>';
 
 		echo '	<tr>';
-		echo '		<th><label for="airport_vip-lounge" class="airport_vip-lounge_label">' . __( 'VIP Lounge', 'text_domain' ) . '</label></th>';
+		echo '		<th><label for="airport_vip_lounge" class="airport_vip_lounge_label">' . __( 'VIP Lounge', 'text_domain' ) . '</label></th>';
 		echo '		<td>';
-		echo '			<label><input type="checkbox" id="airport_vip-lounge" name="airport_vip-lounge" class="airport_vip-lounge_field" value="' . $airport_vip-lounge . '" ' . checked( $airport_vip-lounge, 'checked', false ) . '> ' . __( 'Is there a VIP lounge', 'text_domain' ) . '</label>';
+		echo '			<label><input type="checkbox" id="airport_vip_lounge" name="airport_vip_lounge" class="airport_vip_lounge_field" value="' . $airport_vip_lounge . '" ' . checked( $airport_vip_lounge, 'checked', false ) . '> ' . __( 'Is there a VIP lounge', 'text_domain' ) . '</label>';
 		echo '			<span class="description">' . __( 'Is there a VIP lounge available?', 'text_domain' ) . '</span>';
 		echo '		</td>';
 		echo '	</tr>';
@@ -227,12 +227,12 @@ class Airport_Meta_Box {
 			return;
 
 		// Sanitize user input.
-		$airport_new_iata-code = isset( $_POST[ 'airport_iata-code' ] ) ? sanitize_text_field( $_POST[ 'airport_iata-code' ] ) : '';
-		$airport_new_vip-lounge = isset( $_POST[ 'airport_vip-lounge' ] ) ? 'checked'  : '';
+		$airport_new_iata_code = isset( $_POST[ 'airport_iata_code' ] ) ? sanitize_text_field( $_POST[ 'airport_iata_code' ] ) : '';
+		$airport_new_vip_lounge = isset( $_POST[ 'airport_vip_lounge' ] ) ? 'checked'  : '';
 
 		// Update the meta field in the database.
-		update_post_meta( $post_id, 'airport_iata-code', $airport_new_iata-code );
-		update_post_meta( $post_id, 'airport_vip-lounge', $airport_new_vip-lounge );
+		update_post_meta( $post_id, 'airport_iata_code', $airport_new_iata_code );
+		update_post_meta( $post_id, 'airport_vip_lounge', $airport_new_vip_lounge );
 
 	}
 
