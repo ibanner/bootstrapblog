@@ -218,7 +218,7 @@ function save_airport_meta_box($post_id, $post, $update)
     if(defined("DOING_AUTOSAVE") && DOING_AUTOSAVE)
         return $post_id;
 
-    $slug = "post";
+    $slug = "airport";
     if($slug != $post->post_type)
         return $post_id;
 
