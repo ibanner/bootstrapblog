@@ -14,6 +14,7 @@
 
 				<div class="blog-post airport-cpt">
 					<h2 class="blog-post-title airport-cpt-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h2>
+					<?php echo get_post_meta('meta-box-text'); ?>
 					<?php the_excerpt(); ?>
 				</div>
 
