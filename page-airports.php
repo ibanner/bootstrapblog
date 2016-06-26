@@ -13,7 +13,7 @@
             while ($custom_query->have_posts()) : $custom_query->the_post(); ?>
 
 				<div class="blog-post airport-cpt">
-					<h2 class="blog-post-title airport-cpt-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a> <?php echo $airport_iata_code; ?> </h2>
+					<h2 class="blog-post-title airport-cpt-title"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a> (<?php echo $airport_iata_code; ?>) </h2>
 					<?php the_excerpt(); ?>
 				</div>
 
