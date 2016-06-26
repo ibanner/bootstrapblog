@@ -131,7 +131,7 @@ function create_airport() {
 		'publicly_queryable'    => true,
 		'capability_type'       => 'page',
 	);
-	register_post_type( 'sandbox_airport', $args );
+	register_post_type( 'airport', $args );
 
 }
 add_action( 'init', 'create_airport', 0 );
@@ -142,71 +142,26 @@ function airport_meta_box_markup($object)
 {
 	wp_nonce_field( basename( __FILE__ ) , 'airport_nonce_field');
 	
-	// retrieve the meta-box-text current value
-	$current_text = get_post_meta( $post->ID, 'meta-box-text', true );
-	// retrieve the meta-box-dropdown current value
-	$current_dropdown = get_post_meta( $post->ID, 'meta-box-dropdown', true );
+	// retrieve the _food_carbohydrates current value
+	$current_cholesterol = get_post_meta( $post->ID, '_food_carbohydrates', true );
 
+	?>
+	<div class='inside'>
+		<h3><?php _e( 'Carbohydrates', 'food_example_plugin' ); ?></h3>
+		<p>
+			<input type="text" name="carbohydrates" value="<?php echo $current_carbohydrates; ?>" /> 
+		</p>
+	</div>
+	<?php
 
-    ?>
-        <div>
-            <label for="meta-box-text">Text</label>
-            <input name="meta-box-text" type="text" value="<?php echo $current_text; ?>">
-
-            <br>
-
-            <label for="meta-box-dropdown">Dropdown</label>
-            <select name="meta-box-dropdown">
-                <?php 
-                    $option_values = array(1, 2, 3);
-
-                    foreach($option_values as $key => $value) 
-                    {
-                        if($value == $current_dropdown)
-                        {
-                            ?>
-                                <option selected><?php echo $value; ?></option>
-                            <?php    
-                        }
-                        else
-                        {
-                            ?>
-                                <option><?php echo $value; ?></option>
-                            <?php
-                        }
-                    }
-                ?>
-            </select>
-
-            <br>
-
-            <!-- /* <label for="meta-box-checkbox">Check Box</label>
-            <?php
-                $checkbox_value = get_post_meta($object->ID, "meta-box-checkbox", true);
-
-                if($checkbox_value == "")
-                {
-                    ?>
-                        <input name="meta-box-checkbox[]" type="checkbox" value="true">
-                    <?php
-                }
-                else if($checkbox_value == "true")
-                {
-                    ?>  
-                        <input name="meta-box-checkbox[]" type="checkbox" value="true" checked>
-                    <?php
-                }
-            ?> */ -->
-        </div>
-    <?php  
 }
 
 function add_airport_meta_box()
 {
-    add_meta_box("airport-meta-box", "Airport Details", "airport_meta_box_markup", "sandbox_airport", "side", "high", null);
+    add_meta_box("airport-meta-box", "Airport Details", "airport_meta_box_markup", "airport", "side", "high", null);
 }
 
-add_action("add_meta_boxes", "add_airport_meta_box");
+add_action("add_meta_boxes_airport", "add_airport_meta_box");
 
 // 3.3 Get those meta box values saved somewhere
 
@@ -223,31 +178,11 @@ function save_airport_meta_box( $post_id )
     if(defined("DOING_AUTOSAVE") && DOING_AUTOSAVE)
         return $post_id;
 
-    $slug = "airport";
-    if($slug != $post->post_type)
-        return $post_id;
-
-/*     $meta_box_text_value = "";
-    $meta_box_dropdown_value = "";
-    $meta_box_checkbox_value = ""; */
-
-    if(isset($_POST["meta-box-text"]))
-    {
-        $meta_box_text_value = $_POST["meta-box-text"];
-    }   
-    update_post_meta($post_id, "meta-box-text", $meta_box_text_value);
-
-    if(isset($_POST["meta-box-dropdown"]))
-    {
-        $meta_box_dropdown_value = $_POST["meta-box-dropdown"];
-    }   
-    update_post_meta($post_id, "meta-box-dropdown", $meta_box_dropdown_value);
-
-/*     if(isset($_POST["meta-box-checkbox"]))
-    {
-        $meta_box_checkbox_value = $_POST["meta-box-checkbox"];
-    }   
-    update_post_meta($post_id, "meta-box-checkbox", $meta_box_checkbox_value); */
+	// store custom fields values
+	// carbohydrates string
+	if ( isset( $_REQUEST['carbohydrates'] ) ) {
+		update_post_meta( $post_id, '_food_carbohydrates', sanitize_text_field( $_POST['carbohydrates'] ) );
+	}
 }
 
 add_action("save_post_airport", "save_airport_meta_box", 10, 2);
