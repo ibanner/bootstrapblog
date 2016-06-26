@@ -1,5 +1,5 @@
 <?php get_header(); ?>
-
+page.php
 	<div class="row">
 		<div class="col-sm-12">
 
