@@ -138,51 +138,104 @@ add_action( 'init', 'create_airport', 0 );
 
 // 3.2 Airport Meta-Box
 
-function airport_meta_box_markup($object)
-{
-	wp_nonce_field( basename( __FILE__ ) , 'airport_nonce_field');
-	
-	// retrieve the _food_carbohydrates current value
-	$current_cholesterol = get_post_meta( $post->ID, '_food_carbohydrates', true );
+class Airport_Meta_Box {
 
-	?>
-	<div class='inside'>
-		<h3><?php _e( 'Carbohydrates', 'text_domain' ); ?></h3>
-		<p>
-			<input type="text" name="carbohydrates" value="<?php echo $current_carbohydrates; ?>" /> 
-		</p>
-	</div>
-	<?php
+	public function __construct() {
 
-}
+		if ( is_admin() ) {
+			add_action( 'load-post.php',     array( $this, 'init_metabox' ) );
+			add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
+		}
 
-function add_airport_meta_box()
-{
-    add_meta_box("airport-meta-box", "Airport Details", "airport_meta_box_markup", "airport", "side", "high", null);
-}
-
-add_action("add_meta_boxes_airport", "add_airport_meta_box");
-
-// 3.3 Get those meta box values saved somewhere
-
-function save_airport_meta_box( $post_id )
-{
-	// verify meta box nonce
-	if ( !isset( $_POST['airport_nonce_field'] ) || !wp_verify_nonce( $_POST['airport_nonce_field'], basename( __FILE__ ) ) ){
-		return;
 	}
 
-    if(!current_user_can("edit_post", $post_id))
-        return $post_id;
+	public function init_metabox() {
 
-    if(defined("DOING_AUTOSAVE") && DOING_AUTOSAVE)
-        return $post_id;
+		add_action( 'add_meta_boxes',        array( $this, 'add_metabox' )         );
+		add_action( 'save_post',             array( $this, 'save_metabox' ), 10, 2 );
 
-	// store custom fields values
-	// carbohydrates string
-	if ( isset( $_REQUEST['carbohydrates'] ) ) {
-		update_post_meta( $post_id, '_food_carbohydrates', sanitize_text_field( $_POST['carbohydrates'] ) );
 	}
+
+	public function add_metabox() {
+
+		add_meta_box(
+			'airport-meta-box',
+			__( 'Airport Details', 'text_domain' ),
+			array( $this, 'render_metabox' ),
+			'airport',
+			'side',
+			'low'
+		);
+
+	}
+
+	public function render_metabox( $post ) {
+
+		// Add nonce for security and authentication.
+		wp_nonce_field( 'airport_nonce_action', 'airport_nonce' );
+
+		// Retrieve an existing value from the database.
+		$airport_iata-code = get_post_meta( $post->ID, 'airport_iata-code', true );
+		$airport_vip-lounge = get_post_meta( $post->ID, 'airport_vip-lounge', true );
+
+		// Set default values.
+		if( empty( $airport_iata-code ) ) $airport_iata-code = '';
+		if( empty( $airport_vip-lounge ) ) $airport_vip-lounge = 'False';
+
+		// Form fields.
+		echo '<table class="form-table">';
+
+		echo '	<tr>';
+		echo '		<th><label for="airport_iata-code" class="airport_iata-code_label">' . __( 'IATA Code', 'text_domain' ) . '</label></th>';
+		echo '		<td>';
+		echo '			<input type="text" id="airport_iata-code" name="airport_iata-code" class="airport_iata-code_field" placeholder="' . esc_attr__( 'e.g. TLV', 'text_domain' ) . '" value="' . esc_attr__( $airport_iata-code ) . '">';
+		echo '		</td>';
+		echo '	</tr>';
+
+		echo '	<tr>';
+		echo '		<th><label for="airport_vip-lounge" class="airport_vip-lounge_label">' . __( 'VIP Lounge', 'text_domain' ) . '</label></th>';
+		echo '		<td>';
+		echo '			<label><input type="checkbox" id="airport_vip-lounge" name="airport_vip-lounge" class="airport_vip-lounge_field" value="' . $airport_vip-lounge . '" ' . checked( $airport_vip-lounge, 'checked', false ) . '> ' . __( 'Is there a VIP lounge', 'text_domain' ) . '</label>';
+		echo '			<span class="description">' . __( 'Is there a VIP lounge available?', 'text_domain' ) . '</span>';
+		echo '		</td>';
+		echo '	</tr>';
+
+		echo '</table>';
+
+	}
+
+	public function save_metabox( $post_id, $post ) {
+
+		// Add nonce for security and authentication.
+		$nonce_name   = isset( $_POST['airport_nonce'] ) ? $_POST['airport_nonce'] : '';
+		$nonce_action = 'airport_nonce_action';
+
+		// Check if a nonce is set.
+		if ( ! isset( $nonce_name ) )
+			return;
+
+		// Check if a nonce is valid.
+		if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
+			return;
+
+		// Check if the user has permissions to save data.
+		if ( ! current_user_can( 'edit_post', $post_id ) )
+			return;
+
+		// Check if it's not an autosave.
+		if ( wp_is_post_autosave( $post_id ) )
+			return;
+
+		// Sanitize user input.
+		$airport_new_iata-code = isset( $_POST[ 'airport_iata-code' ] ) ? sanitize_text_field( $_POST[ 'airport_iata-code' ] ) : '';
+		$airport_new_vip-lounge = isset( $_POST[ 'airport_vip-lounge' ] ) ? 'checked'  : '';
+
+		// Update the meta field in the database.
+		update_post_meta( $post_id, 'airport_iata-code', $airport_new_iata-code );
+		update_post_meta( $post_id, 'airport_vip-lounge', $airport_new_vip-lounge );
+
+	}
+
 }
 
-add_action("save_post_airport", "save_airport_meta_box", 10, 2);
+new Airport_Meta_Box;
