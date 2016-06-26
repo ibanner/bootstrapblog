@@ -140,7 +140,7 @@ add_action( 'init', 'create_airport', 0 );
 
 function airport_meta_box_markup($object)
 {
-    wp_nonce_field(basename(__FILE__), "meta-box-nonce");
+/*    wp_nonce_field(basename(__FILE__), "meta-box-nonce");
 
     ?>
         <div>
@@ -192,7 +192,7 @@ function airport_meta_box_markup($object)
                 }
             ?>
         </div>
-    <?php  
+    <?php  */
 }
 
 function add_airport_meta_box()
@@ -204,7 +204,7 @@ add_action("add_meta_boxes", "add_airport_meta_box");
 
 // 3.3 Get those meta box values saved somewhere
 
-function save_airport_meta_box($post_id, $post, $update)
+/* function save_airport_meta_box($post_id, $post, $update)
 {
     if (!isset($_POST["meta-box-nonce"]) || !wp_verify_nonce($_POST["meta-box-nonce"], basename(__FILE__)))
         return $post_id;
@@ -242,4 +242,4 @@ function save_airport_meta_box($post_id, $post, $update)
     update_post_meta($post_id, "meta-box-checkbox", $meta_box_checkbox_value);
 }
 
-add_action("save_post", "save_airport_meta_box", 10, 3);
+add_action("save_post", "save_airport_meta_box", 10, 3); */
