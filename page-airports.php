@@ -1,4 +1,5 @@
 <?php get_header(); ?>
+<? $airport_iata_code = get_post_meta( get_the_ID(), 'airport_iata_code' , true); ?>
 
 	<div class="row">
 		<div class="col-sm-12">
