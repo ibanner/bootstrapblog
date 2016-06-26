@@ -5,7 +5,7 @@
 	<?php if ( has_post_thumbnail() ) {
 	  the_post_thumbnail();
 	} ?>
-	<?php echo get_post_meta( get_the_ID(), 'meta-box-text' , true ); ?>
+	<?php echo $airport_iata_code ?>
 	<?php the_content(); ?>
 
 </div><!-- /.blog-post -->
