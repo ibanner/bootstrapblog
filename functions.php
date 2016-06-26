@@ -83,40 +83,40 @@ add_action( 'admin_init', 'custom_settings_page_setup' );
 
 // 3.1 Declare Airport as a Custom Post Type
 
-function create_airport() {
+function airport_post_type() {
 
 	$labels = array(
 		'name'                  => _x( 'Airports', 'Post Type General Name', 'text_domain' ),
 		'singular_name'         => _x( 'Airport', 'Post Type Singular Name', 'text_domain' ),
 		'menu_name'             => __( 'Airports', 'text_domain' ),
 		'name_admin_bar'        => __( 'Airport', 'text_domain' ),
-		'archives'              => __( 'Airport Archives', 'text_domain' ),
-		'parent_item_colon'     => __( 'Parent Airport:', 'text_domain' ),
+		'archives'              => __( 'Item Archives', 'text_domain' ),
+		'parent_item_colon'     => __( 'Parent Item:', 'text_domain' ),
 		'all_items'             => __( 'All Airports', 'text_domain' ),
 		'add_new_item'          => __( 'Add New Airport', 'text_domain' ),
-		'add_new'               => __( 'Add New', 'text_domain' ),
+		'add_new'               => __( 'Add New Airport', 'text_domain' ),
 		'new_item'              => __( 'New Airport', 'text_domain' ),
 		'edit_item'             => __( 'Edit Airport', 'text_domain' ),
 		'update_item'           => __( 'Update Airport', 'text_domain' ),
 		'view_item'             => __( 'View Airport', 'text_domain' ),
-		'search_items'          => __( 'Search Airport', 'text_domain' ),
+		'search_items'          => __( 'Search Airports', 'text_domain' ),
 		'not_found'             => __( 'Not found', 'text_domain' ),
 		'not_found_in_trash'    => __( 'Not found in Trash', 'text_domain' ),
-		'featured_image'        => __( 'Featured Image', 'text_domain' ),
-		'set_featured_image'    => __( 'Set featured image', 'text_domain' ),
-		'remove_featured_image' => __( 'Remove featured image', 'text_domain' ),
-		'use_featured_image'    => __( 'Use as featured image', 'text_domain' ),
+		'featured_image'        => __( 'Airport Image', 'text_domain' ),
+		'set_featured_image'    => __( 'Set airport image', 'text_domain' ),
+		'remove_featured_image' => __( 'Remove airport image', 'text_domain' ),
+		'use_featured_image'    => __( 'Use as airport image', 'text_domain' ),
 		'insert_into_item'      => __( 'Insert into item', 'text_domain' ),
 		'uploaded_to_this_item' => __( 'Uploaded to this item', 'text_domain' ),
-		'items_list'            => __( 'Airports list', 'text_domain' ),
-		'items_list_navigation' => __( 'Airports list navigation', 'text_domain' ),
-		'filter_items_list'     => __( 'Filter Airports list', 'text_domain' ),
+		'items_list'            => __( 'Items list', 'text_domain' ),
+		'items_list_navigation' => __( 'Items list navigation', 'text_domain' ),
+		'filter_items_list'     => __( 'Filter airports list', 'text_domain' ),
 	);
 	$args = array(
 		'label'                 => __( 'Airport', 'text_domain' ),
-		'description'           => __( 'Airport Description', 'text_domain' ),
+		'description'           => __( 'Airport Descriptions', 'text_domain' ),
 		'labels'                => $labels,
-		'supports'              => array( ),
+		'supports'              => array( 'title', 'editor', 'excerpt', 'author', 'thumbnail', 'custom-fields', 'page-attributes', ),
 		'taxonomies'            => array( 'category', 'post_tag' ),
 		'hierarchical'          => false,
 		'public'                => true,
@@ -126,7 +126,7 @@ function create_airport() {
 		'show_in_admin_bar'     => true,
 		'show_in_nav_menus'     => true,
 		'can_export'            => true,
-		'has_archive'           => true,		
+		'has_archive'           => 'airports',
 		'exclude_from_search'   => false,
 		'publicly_queryable'    => true,
 		'capability_type'       => 'page',
@@ -134,7 +134,7 @@ function create_airport() {
 	register_post_type( 'airport', $args );
 
 }
-add_action( 'init', 'create_airport', 0 );
+add_action( 'init', 'airport_post_type', 0 );
 
 // 3.2 Airport Meta-Box
 
